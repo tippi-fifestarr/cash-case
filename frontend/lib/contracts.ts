@@ -1056,3 +1056,152 @@ export const DEAL_OR_NO_DEAL_ABI = [
     "type": "receive"
   }
 ] as const;
+
+
+export const AGENT_REGISTRY_ABI = [
+  {
+    "inputs": [
+      { "internalType": "string", "name": "strategyURI", "type": "string" },
+      { "internalType": "uint8", "name": "agentType", "type": "uint8" },
+      { "internalType": "address", "name": "wallet", "type": "address" }
+    ],
+    "name": "registerAgent",
+    "outputs": [{ "internalType": "uint256", "name": "agentId", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "agentId", "type": "uint256" }],
+    "name": "fundAgent",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "agentId", "type": "uint256" },
+      { "internalType": "uint256", "name": "gameId", "type": "uint256" },
+      { "internalType": "int256", "name": "profitCents", "type": "int256" }
+    ],
+    "name": "recordResult",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "agentId", "type": "uint256" }],
+    "name": "deactivateAgent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "agentId", "type": "uint256" }],
+    "name": "getAgent",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "owner", "type": "address" },
+          { "internalType": "address", "name": "wallet", "type": "address" },
+          { "internalType": "string", "name": "strategyURI", "type": "string" },
+          { "internalType": "uint8", "name": "agentType", "type": "uint8" },
+          { "internalType": "uint256", "name": "gamesPlayed", "type": "uint256" },
+          { "internalType": "int256", "name": "totalProfitCents", "type": "int256" },
+          { "internalType": "bool", "name": "active", "type": "bool" },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ],
+        "internalType": "struct AgentRegistry.Agent",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_owner", "type": "address" }],
+    "name": "getOwnerAgents",
+    "outputs": [{ "internalType": "uint256[]", "name": "", "type": "uint256[]" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "limit", "type": "uint256" }],
+    "name": "getLeaderboard",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "owner", "type": "address" },
+          { "internalType": "address", "name": "wallet", "type": "address" },
+          { "internalType": "string", "name": "strategyURI", "type": "string" },
+          { "internalType": "uint8", "name": "agentType", "type": "uint8" },
+          { "internalType": "uint256", "name": "gamesPlayed", "type": "uint256" },
+          { "internalType": "int256", "name": "totalProfitCents", "type": "int256" },
+          { "internalType": "bool", "name": "active", "type": "bool" },
+          { "internalType": "uint256", "name": "createdAt", "type": "uint256" }
+        ],
+        "internalType": "struct AgentRegistry.Agent[]",
+        "name": "topAgents",
+        "type": "tuple[]"
+      },
+      { "internalType": "uint256[]", "name": "topIds", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nextAgentId",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "walletRegistered",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "agentId", "type": "uint256" },
+      { "indexed": true, "internalType": "address", "name": "owner", "type": "address" },
+      { "indexed": false, "internalType": "address", "name": "wallet", "type": "address" },
+      { "indexed": false, "internalType": "uint8", "name": "agentType", "type": "uint8" }
+    ],
+    "name": "AgentRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "agentId", "type": "uint256" },
+      { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }
+    ],
+    "name": "AgentFunded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "agentId", "type": "uint256" }
+    ],
+    "name": "AgentDeactivated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "uint256", "name": "agentId", "type": "uint256" },
+      { "indexed": true, "internalType": "uint256", "name": "gameId", "type": "uint256" },
+      { "indexed": false, "internalType": "int256", "name": "profitCents", "type": "int256" }
+    ],
+    "name": "GameResultRecorded",
+    "type": "event"
+  },
+  { "stateMutability": "payable", "type": "receive" }
+] as const;
+
+export const AGENT_REGISTRY_ADDRESS = (process.env.NEXT_PUBLIC_REGISTRY_ADDRESS || "0x0000000000000000000000000000000000000000") as `0x${string}`;
