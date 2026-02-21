@@ -5,11 +5,11 @@ import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFCo
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
-/// @title Cash Case — Schrödinger's Case Edition
+/// @title Cash Case — Brodinger's Case Edition
 /// @notice Provably fair on-chain briefcase game with quantum case values.
-/// @dev Case values don't exist until observed. Each opening round uses commit-reveal
-///      with blockhash entropy to prevent precomputation attacks by bots.
-///      "Word on the street is someone knows what's in the case" — not anymore.
+/// @dev Brodinger's Case: values don't exist until observed. Each opening round uses
+///      commit-reveal with blockhash entropy to prevent precomputation attacks by bots.
+///      "Word on the street is someone knows what's in the case" — not with Brodinger's Case.
 contract CashCase is VRFConsumerBaseV2Plus {
     // ──────────────────── Constants ────────────────────
     uint8 public constant NUM_CASES = 12;
@@ -245,7 +245,7 @@ contract CashCase is VRFConsumerBaseV2Plus {
         emit RoundCommitted(gameId, game.currentRound);
     }
 
-    /// @notice Reveal cases — Schrödinger collapse happens here
+    /// @notice Reveal cases — Brodinger's collapse happens here
     function revealRound(
         uint256 gameId,
         uint8[] calldata caseIndices,
@@ -264,7 +264,7 @@ contract CashCase is VRFConsumerBaseV2Plus {
             revert WrongNumberOfCases(requiredCount, uint8(caseIndices.length));
         }
 
-        uint256 expectedHash = uint256(keccak256(abi.encodePacked(caseIndices, salt)));
+        uint256 expectedHash = uint256(keccak256(abi.encode(caseIndices, salt)));
         if (expectedHash != game.commitHash) revert InvalidReveal();
 
         bytes32 roundEntropy = blockhash(game.commitBlock);
@@ -345,7 +345,7 @@ contract CashCase is VRFConsumerBaseV2Plus {
         if (block.number <= game.commitBlock) revert TooEarlyToReveal();
         if (block.number - game.commitBlock > 256) revert RevealWindowExpired();
 
-        uint256 expectedHash = uint256(keccak256(abi.encodePacked(swap, salt)));
+        uint256 expectedHash = uint256(keccak256(abi.encode(swap, salt)));
         if (expectedHash != game.commitHash) revert InvalidReveal();
 
         bytes32 finalEntropy = blockhash(game.commitBlock);
@@ -416,7 +416,7 @@ contract CashCase is VRFConsumerBaseV2Plus {
         }
     }
 
-    // ──────────────────── Schrödinger Collapse ────────────────────
+    // ──────────────────── Brodinger's Collapse ────────────────────
 
     function _collapseCase(
         Game storage game,
